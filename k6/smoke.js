@@ -5,14 +5,14 @@ const BASE_URL = __ENV.BASE_URL || 'http://localhost:3000';
 
 export const options = {
   stages: [
-    { duration: '20s', target: 220 },
-    { duration: '30s', target: 220 },
-    { duration: '20s', target: 240 },
-    { duration: '30s', target: 240 },
-    { duration: '20s', target: 260 },
-    { duration: '30s', target: 260 },
-    { duration: '20s', target: 280 },
-    { duration: '30s', target: 280 },
+    { duration: '20s', target: 2200 },
+    { duration: '30s', target: 2200 },
+    { duration: '20s', target: 2400 },
+    { duration: '30s', target: 2400 },
+    { duration: '20s', target: 2600 },
+    { duration: '30s', target: 2600 },
+    { duration: '20s', target: 2800 },
+    { duration: '30s', target: 2800 },
     { duration: '10s', target: 0 },
   ],
 };
