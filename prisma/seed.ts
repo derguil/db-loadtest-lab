@@ -6,6 +6,7 @@ type SeedOptions = {
   forumCount: number;
   postsPerForum: number;
   batchSize: number;
+  resetBeforeSeed: boolean;
 };
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -22,12 +23,39 @@ function toPositiveInt(value: string | undefined, fallback: number): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+function toBoolean(value: string | undefined, fallback: boolean): boolean {
+  if (!value) {
+    return fallback;
+  }
+
+  const normalized = value.trim().toLowerCase();
+  if (['1', 'true', 'yes', 'y', 'on'].includes(normalized)) {
+    return true;
+  }
+  if (['0', 'false', 'no', 'n', 'off'].includes(normalized)) {
+    return false;
+  }
+  return fallback;
+}
+
 function getOptions(): SeedOptions {
   return {
     forumCount: toPositiveInt(process.env.SEED_FORUM_COUNT, 1000),
     postsPerForum: toPositiveInt(process.env.SEED_POSTS_PER_FORUM, 100),
     batchSize: toPositiveInt(process.env.SEED_BATCH_SIZE, 5000),
+    resetBeforeSeed: toBoolean(process.env.SEED_RESET, false),
   };
+}
+
+async function resetData(): Promise<void> {
+  console.log('SEED_RESET=true detected. Clearing existing forum and post data...');
+
+  await prisma.$transaction([
+    prisma.post.deleteMany({}),
+    prisma.forum.deleteMany({}),
+  ]);
+
+  console.log('Existing data cleared.');
 }
 
 async function seedForums(forumCount: number): Promise<number[]> {
@@ -115,6 +143,10 @@ async function main(): Promise<void> {
   const options = getOptions();
 
   console.log('Start seeding load test data with options:', options);
+
+  if (options.resetBeforeSeed) {
+    await resetData();
+  }
 
   const forumIds = await seedForums(options.forumCount);
   await seedPosts(forumIds, options.postsPerForum, options.batchSize);

@@ -11,6 +11,7 @@ export class PostsService {
   constructor(
     private readonly forumRepository: ForumRepository,
     private readonly postRepository: PostRepository,
+    // @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async addPost(createPostDto: CreatePostDto): Promise<Post> {

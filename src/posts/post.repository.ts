@@ -42,12 +42,9 @@ export class PostRepository {
     });
   }
 
-  findPosts(forumId: number | undefined, page: number, limit: number, db: DbClient = this.prisma): Promise<PostListItem[]> {
+  findPosts(forumId: number, page: number, limit: number, db: DbClient = this.prisma): Promise<PostListItem[]> {
     return db.post.findMany({
-      where: {
-        isDeleted: false,
-        ...(forumId ? { forumId } : {}),
-      },
+      where: { forumId, isDeleted: false },
       select: postSelect,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * limit,
