@@ -19,10 +19,10 @@
 | max | 1s | 138.14ms |
 
 **Redis 도입 전**
-![redis 도입 전 k6 결과](images/redis_전.png)
+![redis 도입 전 k6 결과](./redis_전.png)
 
 **Redis 도입 후**
-![redis 도입 후 k6 결과](images/redis_후.png)
+![redis 도입 후 k6 결과](./redis_후.png)
 
 평균 응답시간이 **231.35ms → 5.87ms로 약 39배** 감소했고, 처리량은 187.68 → 229.55 req/s로 증가했다. 실패율은 두 경우 모두 0%.
 
@@ -47,7 +47,7 @@ MySQL(InnoDB)은 디스크 접근 전에 buffer pool(메모리)을 먼저 거치
 
 ### 3-1. Redis 도입 전 (Prisma → MariaDB 직접 조회)
 
-![flamegraph - Prisma/MariaDB 경로](images/flamegraph_전_prisma-mariadb.png)
+![flamegraph - Prisma/MariaDB 경로](./flamegraph_전_prisma-mariadb.png)
 
 CPU self-time 상위 항목:
 
@@ -63,7 +63,7 @@ CPU self-time 상위 항목:
 
 ### 3-2. Redis 도입 후 (keyv + @keyv/redis + cache-manager)
 
-![flamegraph - keyv/redis 캐시 경로](images/flamegraph_후_keyv-redis.png)
+![flamegraph - keyv/redis 캐시 경로](./flamegraph_후_keyv-redis.png)
 
 CPU self-time 상위 항목:
 
