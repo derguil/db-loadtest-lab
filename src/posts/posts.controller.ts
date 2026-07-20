@@ -8,11 +8,13 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { GetPostsDto } from './dto/get-posts.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('posts')
 export class PostsController {
@@ -23,6 +25,7 @@ export class PostsController {
     return this.postsService.addPost(createPostDto);
   }
 
+  // @UseInterceptors(CacheInterceptor)
   @Get()
   getPosts(@Query() getPostsDto: GetPostsDto) {
     return this.postsService.getPosts(getPostsDto);

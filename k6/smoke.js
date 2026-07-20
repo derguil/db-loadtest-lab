@@ -22,9 +22,11 @@ function randomInt(min, max) {
 }
 
 export default function () {
-  const forumId = randomInt(1,1000);
-  const page = randomInt(1, 10);
-  const res = http.get(`${BASE_URL}/posts?forumId=${forumId}&page=${page}&limit=10`);
+  // const forumId = randomInt(1,1000);
+  const forumId = 500;
+  // const page = randomInt(1, 10);
+  const page = 1;
+  const res = http.get(`${BASE_URL}/posts?forumId=${forumId}&page=${page}&limit=100`);
   check(res, { 'status is 200': (r) => r.status === 200 });
   sleep(1);
 }
