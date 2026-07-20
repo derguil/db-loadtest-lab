@@ -9,6 +9,7 @@
 |---|---|---|
 | [실험 01](experiments/01-pool-size/README.md) | DB pool 크기 비교 | 평소 트래픽 영향은 작고, 피크에서 병목 완화 효과가 큼 |
 | [실험 02](experiments/02-query-optimization/README.md) | 쿼리 최적화 전/후 | pool 튜닝보다 쿼리 최적화의 성능 개선 폭이 훨씬 큼 |
+| [실험 03](experiments/03-cache-implement/README.md) | Redis 캐싱 도입 전/후 | 특정 경우에는 디스크 I/O보다 요청당 JS 연산(쿼리 인터프리팅/역직렬화) 비용이 핵심 병목일수도 있음 |
 
 ## 공통 환경
 
