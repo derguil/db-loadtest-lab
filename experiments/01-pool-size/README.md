@@ -41,7 +41,7 @@ Prisma MariaDB adapter의 `connectionLimit` 변화가 평소 트래픽과 고부
 
 ## 관련 실험 / 다음 확인할 것
 
-- [실험 02: 쿼리 최적화 전/후](../experiments/02-query-optimization/README.md) — pool 튜닝이 아니라 쿼리 자체를 줄이면 어떻게 되는지
+- [실험 02: 쿼리 최적화 전/후](../02-query-optimization/README.md) — pool 튜닝이 아니라 쿼리 자체를 줄이면 어떻게 되는지
 
 ## 재현 절차
 

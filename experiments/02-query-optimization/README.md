@@ -41,7 +41,7 @@
 
 ## 관련 실험 / 다음 확인할 것
 
-- [실험 03: Redis 캐싱 도입 전/후](../experiments/03-cache-implement/README.md) — 쿼리 자체를 줄이는 것 외에, 캐싱으로 DB 접근 자체를 없애면 어떻게 되는지
+- [실험 03: Redis 캐싱 도입 전/후](../03-cache-implement/README.md) — 쿼리 자체를 줄이는 것 외에, 캐싱으로 DB 접근 자체를 없애면 어떻게 되는지
 
 ## 재현 절차
 

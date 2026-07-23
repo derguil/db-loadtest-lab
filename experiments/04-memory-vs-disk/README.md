@@ -81,10 +81,10 @@ npm run loadtest:fvsst
 `Innodb_buffer_pool_reads`(실제 디스크 페이지를 읽은 횟수)와 `Innodb_buffer_pool_read_requests`(buffer pool에 대한 전체 읽기 요청 수)의 테스트 전/후 델타를 측정해서 검증했다.
 
 **테스트 전**
-![buffer pool 상태 - 테스트 전](./images/buffer_pool_전.png)
+![buffer pool 상태 - 테스트 전](./images/req, read 전.png)
 
 **테스트 후**
-![buffer pool 상태 - 테스트 후](./images/buffer_pool_후.png)
+![buffer pool 상태 - 테스트 후](./images/req, read 후.png)
 
 | 지표 | 테스트 전 | 테스트 후 | 델타 |
 |---|---:|---:|---:|
