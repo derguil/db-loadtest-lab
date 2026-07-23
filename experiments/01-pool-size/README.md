@@ -1,9 +1,15 @@
 # 실험 01: DB Pool 크기 비교
 
-## 목적
-같은 API 요청 패턴에서 Prisma MariaDB adapter의 connectionLimit 변화가 응답시간과 처리량에 어떤 영향을 주는지 확인한다.
+## 배경
+
+같은 API 요청 패턴에서 DB 커넥션 풀 크기가 응답시간과 처리량에 어떤 영향을 주는지 감으로만 알고 있었고, 실측으로 확인이 필요했다.
+
+## 목표
+
+Prisma MariaDB adapter의 `connectionLimit` 변화가 평소 트래픽과 고부하 상황에서 각각 어떤 영향을 주는지 확인한다.
 
 ## 조건
+
 - 애플리케이션: Nest + Prisma
 - DB: MariaDB (local)
 - 부하 도구: k6
@@ -11,12 +17,15 @@
 - 비교 항목: pool=1 vs pool=10
 - 부하 강도: 평소(max 280 VUs) / 10배(max 2800 VUs)
 
-## 결과 요약
-- 평소 트래픽(max 280): pool=1과 pool=10의 차이가 작았다.
-- 고부하(max 2800): pool=1은 직렬화 병목이 두드러졌고, pool=10이 더 높은 처리량과 낮은 지연을 보였다.
-- 결론: pool 증설은 피크 구간 완화에는 효과가 있지만, 시스템의 근본 처리 한계를 없애지는 못한다.
+## 변경 내용 / 실험 설계
 
-## 핵심 수치
+- `DB_POOL_LIMIT`, `DB_POOL_MIN_IDLE` 값만 변경하고 나머지 조건은 동일하게 유지
+- 평소 트래픽 / 10배 고부하 두 시나리오에서 각각 pool=1, pool=10을 비교
+
+## 결과
+
+### 부하테스트 결과 (k6)
+
 | 구분 | Pool=1 (평소) | Pool=10 (평소) | Pool=1 (10배 부하) | Pool=10 (10배 부하) |
 |---|---:|---:|---:|---:|
 | Max VUs | 280 | 280 | 2,800 | 2,800 |
@@ -24,19 +33,25 @@
 | 평균 응답시간 (avg) | 3.78ms | 4.21ms | 1.03s | 440.89ms |
 | p95 | 10.32ms | 10.64ms | 1.41s | 801.69ms |
 
+## 결론
+
+- 평소 트래픽(max 280)에서는 pool=1과 pool=10의 차이가 거의 없었다.
+- 고부하(max 2800)에서는 pool=1이 직렬화 병목으로 응답시간이 크게 늘었고, pool=10이 처리량은 약 1.4배, p95는 약 43% 낮았다.
+- pool 증설은 피크 구간의 병목 완화에는 효과가 있지만, 시스템의 근본적인 처리 한계를 없애주지는 못한다.
+
+## 관련 실험 / 다음 확인할 것
+
+- [실험 02: 쿼리 최적화 전/후](../experiments/02-query-optimization/README.md) — pool 튜닝이 아니라 쿼리 자체를 줄이면 어떻게 되는지
+
 ## 재현 절차
+
 1. pool 설정값 변경
-- DB_POOL_LIMIT
-- DB_POOL_MIN_IDLE
-
-2. 서버 실행
-- npm run start:dev
-
-3. 부하 실행
-- npm run loadtest:smoke
-
-4. 결과 비교
-- avg, p90, p95, req/s 중심으로 비교
+   - `DB_POOL_LIMIT`
+   - `DB_POOL_MIN_IDLE`
+2. 서버 실행: `npm run start:dev`
+3. 부하 실행: `npm run loadtest:smoke`
+4. avg, p90, p95, req/s 중심으로 결과 비교
 
 ## 노트
+
 - 고부하에서 응답시간이 증가하면, pool 수치뿐 아니라 쿼리 지연/락/인덱스/캐시 전략을 함께 점검해야 한다.
