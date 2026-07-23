@@ -37,12 +37,12 @@ export class PostsService {
     const page = Number(getPostsDto.page ?? 1);
     const limit = Number(getPostsDto.limit ?? 10);
 
-    const cacheKey = `forumId:${forumId}:page:${page}:limit:${limit}`;
-    const cached = (await this.cacheManager.get(cacheKey)) as Post[] | undefined;
-    if (cached) return cached;
+    // const cacheKey = `forumId:${forumId}:page:${page}:limit:${limit}`;
+    // const cached = (await this.cacheManager.get(cacheKey)) as Post[] | undefined;
+    // if (cached) return cached;
 
     const posts = await this.postRepository.findPosts(forumId, page, limit);
-    await this.cacheManager.set(cacheKey, posts);
+    // await this.cacheManager.set(cacheKey, posts);
     return posts;
   }
 

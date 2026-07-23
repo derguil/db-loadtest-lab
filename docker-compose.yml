@@ -10,6 +10,7 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./docker/mariadb/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf:ro
     healthcheck:
       test: ["CMD", "mariadb-admin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DATABASE_PASSWORD}"]
       interval: 10s
